@@ -12,17 +12,18 @@ import java.util.Scanner;
 
 import common.CsvRead;
 import common.Fortune;
-import common.ReadWriteProperties;
+import common.ReadWriteFiles;
 import omikuji.Chukichi;
 import omikuji.Daikichi;
 import omikuji.Kichi;
 import omikuji.Kyo;
+import omikuji.Omikuji;
 import omikuji.Shokichi;
 import omikuji.Suekichi;
 
 /**
  * Mainクラス. <br>
- * Mainクラスは、おみくじを実行します
+ * Mainクラスは、おみくじを実行します。
  *
  * @author Ryo.inoue
  * @version 1.00
@@ -50,55 +51,40 @@ public class Main {
 			dFormat.parse(day.toString());
 
 			// csvを読み込み、一行ずつ運勢を分解したリストを取得
-			List<String> csvList = CsvRead.read();
-			List<Map<String, String>> unseiList = CsvRead.getUnsei(csvList);
+			List<Map<String, String>> unseiList = CsvRead.getUnsei();
 
-			List<Fortune> fortunes = new ArrayList<>();
+			List<Omikuji> omikujis = new ArrayList<>();
 
 			// 運勢ごとにオブジェクトを生成
-			for (int i = 0; i < unseiList.size(); i++) {
+			for (Map<String, String> unseiMap : unseiList) {
 
-				String unsei = unseiList.get(i).get("UNSEI");
-				String negaigoto = unseiList.get(i).get("NEGAIGOTO");
-				String akinai = unseiList.get(i).get("AKINAI");
-				String gakumon = unseiList.get(i).get("GAKUMON");
+				// おみくじ初期化
+				Omikuji omikuji = null;
 
-				switch (unsei) {
+				switch (unseiMap.get("UNSEI")) {
 
 				case "大吉":
-					Daikichi daikichi = new Daikichi();
-					daikichi.setUnsei(unsei, negaigoto, akinai, gakumon);
-					fortunes.add(daikichi);
+					omikuji = new Daikichi();
 					break;
 
 				case "中吉":
-					Chukichi chukichi = new Chukichi();
-					chukichi.setUnsei(unsei, negaigoto, akinai, gakumon);
-					fortunes.add(chukichi);
+					omikuji = new Chukichi();
 					break;
 
 				case "吉":
-					Kichi kichi = new Kichi();
-					kichi.setUnsei(unsei, negaigoto, akinai, gakumon);
-					fortunes.add(kichi);
+					omikuji = new Kichi();
 					break;
 
 				case "小吉":
-					Shokichi shokichi = new Shokichi();
-					shokichi.setUnsei(unsei, negaigoto, akinai, gakumon);
-					fortunes.add(shokichi);
+					omikuji = new Shokichi();
 					break;
 
 				case "末吉":
-					Suekichi suekichi = new Suekichi();
-					suekichi.setUnsei(unsei, negaigoto, akinai, gakumon);
-					fortunes.add(suekichi);
+					omikuji = new Suekichi();
 					break;
 
 				case "凶":
-					Kyo kyo = new Kyo();
-					kyo.setUnsei(unsei, negaigoto, akinai, gakumon);
-					fortunes.add(kyo);
+					omikuji = new Kyo();
 					break;
 
 				//一行でもCSVに不正があった場合、強制終了させる
@@ -106,19 +92,32 @@ public class Main {
 					System.out.println("不正なおみくじがあります。");
 					return;
 				}
+
+				// 運勢をセットする
+				omikuji.setUnsei(unseiMap.get("NEGAIGOTO"), unseiMap.get("AKINAI"), unseiMap.get("GAKUMON"));
+
+				// リストに追加
+				omikujis.add(omikuji);
 			}
 
 			//入力された 日にちを元にランダムオブジェクトを生成
 			Random random = new Random(day);
 
 			// ランダムにおみくじオブジェクトをおみくじリストからゲットする
-			Fortune fortune = fortunes.get(random.nextInt(fortunes.size()));
+			Fortune fortune = omikujis.get(random.nextInt(omikujis.size()));
+
+			// 表示用の文字列
+			StringBuilder dispBuilder = new StringBuilder();
+			dispBuilder.append(String.format(ReadWriteFiles.read(), "%s") + "\n");
+			dispBuilder.append("願い事：" + "%s" + "\n");
+			dispBuilder.append("商い：" + "%s" + "\n");
+			dispBuilder.append("学問：" + "%s" + "\n");
 
 			// コンソールに出力
-			System.out.println(fortune.disp());
-			
+			System.out.println(fortune.disp(dispBuilder));
+
 			// テキストファイルに出力
-			ReadWriteProperties.write(fortune.disp());
+			ReadWriteFiles.write(fortune.disp(dispBuilder));
 
 		} catch (InputMismatchException e) {
 			System.out.println("数値を入力してください");

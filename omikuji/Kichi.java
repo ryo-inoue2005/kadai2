@@ -1,7 +1,6 @@
 package omikuji;
 
 import common.Fortune;
-import common.ReadWriteProperties;
 
 /**
  * Kichiクラス. <br>
@@ -10,28 +9,28 @@ import common.ReadWriteProperties;
  * @author Ryo.inoue
  * @version 1.00
  */
-public class Kichi extends Omikuji implements Fortune {
+public class Kichi extends Omikuji {
+
+	public Kichi() {
+		
+		this.unsei = "吉";
+	}
 
 	/**
 	 * @see Fortune#disp()
 	 */
 	@Override
-	public String disp() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(String.format(ReadWriteProperties.read(), this.unsei) + "\n");
-		builder.append("願い事：" + this.negaigoto + "\n");
-		builder.append("商い：" + this.akinai + "\n");
-		builder.append("学問：" + this.gakumon + "\n");
-
-		return builder.toString();
+	public String disp(StringBuilder builder) {
+		
+		return String.format(builder.toString(), this.unsei, this.negaigoto, this.akinai, this.gakumon);
 	}
 
 	/**
 	 * @see Omikuji#setUnsei()
 	 */
 	@Override
-	public void setUnsei(String unsei, String negaigoto, String akinai, String gakumon) {
-		this.unsei = unsei;
+	public void setUnsei(String negaigoto, String akinai, String gakumon) {
+		
 		this.negaigoto = negaigoto;
 		this.akinai = akinai;
 		this.gakumon = gakumon;

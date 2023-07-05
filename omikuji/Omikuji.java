@@ -1,5 +1,7 @@
 package omikuji;
 
+import common.Fortune;
+
 /**
  * Omikuji抽象クラス. <br>
  * Omikuji抽象クラスは、おみくじ周りを管理します。
@@ -7,7 +9,7 @@ package omikuji;
  * @author Ryo.inoue
  * @version 1.00
  */
-abstract class Omikuji {
+ public abstract class Omikuji implements Fortune {
 	
 	/** 運勢を表します */
 	protected String unsei;
@@ -23,8 +25,6 @@ abstract class Omikuji {
 	 * <br>
 	 * 運勢をセットします。	
 	 * 
-	 * @param unsei
-	 * 			運勢
 	 * @param negaigoto
 	 * 			願い事
 	 * @param akinai
@@ -32,5 +32,5 @@ abstract class Omikuji {
 	 * @param gakumon
 	 * 			学問
 	 */
-	public abstract void setUnsei(String unsei, String negaigoto, String akinai, String gakumon);
+	public abstract void setUnsei(String negaigoto, String akinai, String gakumon);
 }
