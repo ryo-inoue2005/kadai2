@@ -1,7 +1,5 @@
 package omikuji;
 
-import common.Fortune;
-
 /**
  * Kyoクラス. <br>
  * Kyoクラスは、凶を設定します。
@@ -14,15 +12,6 @@ public class Kyo extends Omikuji {
 	public Kyo() {
 		
 		this.unsei = "凶";
-	}
-
-	/**
-	 * @see Fortune#disp()
-	 */
-	@Override
-	public String disp(StringBuilder builder) {
-		
-		return String.format(builder.toString(), this.unsei, this.negaigoto, this.akinai, this.gakumon);
 	}
 
 	/**

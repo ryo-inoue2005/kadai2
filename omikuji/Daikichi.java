@@ -1,7 +1,5 @@
 package omikuji;
 
-import common.Fortune;
-
 /**
  * Daikichiクラス. <br>
  * Daikichiクラスは、大吉を設定します。
@@ -12,17 +10,8 @@ import common.Fortune;
 public class Daikichi extends Omikuji {
 
 	public Daikichi() {
-		
-		this.unsei = "大吉";
-	}
 
-	/**
-	 * @see Fortune#disp()
-	 */
-	@Override
-	public String disp(StringBuilder builder) {
-		
-		return String.format(builder.toString(), this.unsei, this.negaigoto, this.akinai, this.gakumon);
+		this.unsei = "大吉";
 	}
 
 	/**

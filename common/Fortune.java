@@ -1,5 +1,7 @@
 package common;
 
+import java.util.ResourceBundle;
+
 /**
  * Fortuneインターフェース. <br>
  * Fortuneインターフェースは、占い結果を表示します。
@@ -9,7 +11,8 @@ package common;
  */
 public interface Fortune {
 
-	String DISP_STR = "「プロパティファイルから読込」";
+	/** プロパティファイルから取得した値を表します */
+	String DISP_STR = ResourceBundle.getBundle("fortune").getString("disp_str");
 
 	/**
 	 * 占い結果を表示するメソッド
@@ -19,5 +22,5 @@ public interface Fortune {
 	 * @return 占い結果
 	 *			
 	 */
-	String disp(StringBuilder builder);
+	String disp();
 }

@@ -33,4 +33,14 @@ import common.Fortune;
 	 * 			学問
 	 */
 	public abstract void setUnsei(String negaigoto, String akinai, String gakumon);
+	
+	/**
+	 * @see Fortune#disp()
+	 */
+	@Override
+	public String disp() {
+		
+		return String.format(DISP_STR + "\n" + "願い事：%s \n" + "商い：%s \n" + "学問：%s \n",
+				this.unsei, this.negaigoto, this.akinai, this.gakumon);
+	}
 }
